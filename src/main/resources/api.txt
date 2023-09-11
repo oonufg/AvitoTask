@@ -1,0 +1,37 @@
+REST API
+-------------------
+___________________
+SegmentService
+POST /segment
+{
+    slug
+}
+RESPONSE:
+-201,{slug}
+-400
+
+DELETE /segment:
+{
+    slug
+}
+RESPONSE:
+-200,
+-404
+-----------------------
+_______________________
+UserService
+
+POST /user
+{
+
+}
+RESPONSE:
+201,{id}
+
+GET /user{id}
+RESPONSE:
+200,{[segment]}
+404
+
+----------------------
+_______________________
