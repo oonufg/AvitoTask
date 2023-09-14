@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.Pavel.Domain.Entities.Segment;
+import ru.Pavel.Domain.Exceptions.UserNotFoundException;
 import ru.Pavel.Services.UserService;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class UserController {
         this.userService = userService;
         this.jsonSerializer = new Gson();
     }
-    @PostMapping
+    @PostMapping()
     public ResponseEntity<?> handleCreateUser(){
         userService.createUser();
         return ResponseEntity.ok("");
@@ -35,10 +36,25 @@ public class UserController {
 
     @GetMapping("{id}")
     public ResponseEntity<?> handleGetUserSegments(@PathVariable("id") long userId){
-        List<Segment> userSegments = userService.getUserSegments(userId);
-        return ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_JSON)
-                .body(jsonSerializer.toJson(userSegments));
+        try {
+            List<Segment> userSegments = userService.getUserSegments(userId);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(jsonSerializer.toJson(userSegments));
+        }catch(UserNotFoundException exception){
+            System.out.println(exception.getMessage());
+            return ResponseEntity.notFound().build();
+        }
+
+    }
+    @PostMapping("{id}")
+    public ResponseEntity<?> handleAddSegmentsToUser(@PathVariable("id") long userId, @RequestBody List<Segment> segments){
+        try {
+            userService.addSegmentsToUser(userId, segments);
+        }catch(UserNotFoundException exception){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok("");
     }
 
 }

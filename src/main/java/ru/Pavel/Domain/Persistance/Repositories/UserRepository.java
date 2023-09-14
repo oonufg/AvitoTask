@@ -1,6 +1,7 @@
 package ru.Pavel.Domain.Persistance.Repositories;
 
 import ru.Pavel.Domain.Entities.User;
+import ru.Pavel.Domain.Exceptions.UserNotFoundException;
 import ru.Pavel.Domain.Persistance.Repositories.Mapper.UserMapper;
 import ru.Pavel.Domain.Persistance.Repositories.Tables.UserTable;
 
@@ -26,10 +27,12 @@ public class UserRepository {
         userTable.deleteUser(user_id);
     }
 
-    public User getUser(long user_id){
+    public User getUser(long user_id) throws UserNotFoundException{
         Map<String, Object> unmappedUser = userTable.getUser(user_id);
+        if(unmappedUser.isEmpty()){
+            throw new UserNotFoundException("User not exists");
+        }
         return UserMapper.mapUser(unmappedUser);
-
     }
 
 }

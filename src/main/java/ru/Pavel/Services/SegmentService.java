@@ -28,4 +28,7 @@ public class SegmentService {
     public List<Segment> getAllSegments(){
         return segments.getAllSegments();
     }
+    public List<Segment> getConcreteSegments(List<String> slugs){
+        return null;
+    }
 }

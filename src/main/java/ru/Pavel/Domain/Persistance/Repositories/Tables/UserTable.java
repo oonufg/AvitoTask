@@ -44,6 +44,7 @@ public class UserTable extends PostgresqlTable {
         try{
             PreparedStatement query = getUserStatement(user_id);
             ResultSet queryResult = executeQuery(query);
+            queryResult.next();
             result.putAll(resultSetToMap(queryResult));
         }catch(SQLException e){
             System.out.println(e.getMessage());
@@ -67,7 +68,7 @@ public class UserTable extends PostgresqlTable {
     }
 
     private PreparedStatement getUserStatement(long user_id) throws SQLException{
-        String query = "SELECT id from users WHERE id= ?";
+        String query = "SELECT * from users WHERE id= ?";
         PreparedStatement statement = getStatement(query);
         statement.setLong(1, user_id);
         return statement;

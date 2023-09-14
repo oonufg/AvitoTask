@@ -3,6 +3,7 @@ package ru.Pavel.Services;
 import org.springframework.stereotype.Service;
 import ru.Pavel.Domain.Entities.Segment;
 import ru.Pavel.Domain.Entities.User;
+import ru.Pavel.Domain.Exceptions.UserNotFoundException;
 import ru.Pavel.Domain.Persistance.Repositories.UserRepository;
 
 import java.util.List;
@@ -27,10 +28,15 @@ public class UserService {
         users.deleteUser(user_id);
     }
 
-    public List<Segment> getUserSegments(long user_id){
+    public List<Segment> getUserSegments(long user_id) throws UserNotFoundException {
         User user = users.getUser(user_id);
         return user.getSegments();
     }
 
+    public void addSegmentsToUser(long user_id, List<Segment> segmentsToAdd) throws UserNotFoundException{
+        User user = users.getUser(user_id);
+        System.out.println(user.getId());
+        user.addSegments(segmentsToAdd);
+    }
 
 }

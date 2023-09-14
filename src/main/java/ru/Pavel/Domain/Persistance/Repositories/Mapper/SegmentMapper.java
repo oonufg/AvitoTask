@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class SegmentMapper {
     public static Segment mapSegment(Map<String,Object> unmappedSegment){
-        Segment segment = new Segment((String)unmappedSegment.get("slug"));
+        Segment segment = new Segment((Long)unmappedSegment.get("id"),(String)unmappedSegment.get("slug"));
         return segment;
     }
 

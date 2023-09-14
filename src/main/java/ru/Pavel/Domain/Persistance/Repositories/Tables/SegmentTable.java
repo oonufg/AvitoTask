@@ -51,6 +51,25 @@ public class SegmentTable extends PostgresqlTable {
         return queryResult;
     }
 
+    public boolean isSegmentExist(long id, String slug){
+        boolean result = false;
+        try{
+            PreparedStatement query = getIsSegmentExistSegment(id,slug);
+            ResultSet queryResult =  executeQuery(query);
+            result = isResultSetEmpty(queryResult);
+        }catch(SQLException exception){
+            System.out.println(exception.getMessage());
+        }
+        return result;
+    }
+
+    private PreparedStatement getIsSegmentExistSegment(long id, String slug) throws SQLException{
+        String query = "SELECT * FROM segments WHERE id =? AND slug=?";
+        PreparedStatement statement = getStatement(query);
+        statement.setLong(1,id);
+        statement.setString(2,slug);
+        return statement;
+    }
 
     private PreparedStatement getCreateSegmentStatement(String slug) throws SQLException{
         String query = "INSERT INTO segments(slug) VALUES(?)";
@@ -71,5 +90,11 @@ public class SegmentTable extends PostgresqlTable {
         PreparedStatement statement = getStatement(query);
         return statement;
     }
-
+    private boolean isResultSetEmpty(ResultSet set) throws SQLException{
+        boolean result = false;
+        if(set.next()){
+            result = true;
+        }
+        return result;
+    }
 }

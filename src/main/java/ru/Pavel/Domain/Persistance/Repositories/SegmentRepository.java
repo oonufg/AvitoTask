@@ -26,4 +26,8 @@ public class SegmentRepository {
         return result;
     }
 
+    public boolean isSegmentExist(Segment segment){
+        return segmentTable.isSegmentExist(segment.getId(),segment.getSlug());
+    }
+
 }
