@@ -1,5 +1,6 @@
 package ru.Pavel.Domain.Entities;
 
+import ru.Pavel.Domain.Exceptions.BadSegmentException;
 import ru.Pavel.Domain.Persistance.Repositories.UserSegmentRepository;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class User {
         return segments.getUserSegments(this);
     }
 
-    public void addSegments(List<Segment> segment){
+    public void addSegments(List<Segment> segment)throws BadSegmentException {
         segments.addSegmentsToUser(this, segment);
     }
 

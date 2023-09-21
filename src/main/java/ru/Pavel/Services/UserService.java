@@ -3,6 +3,7 @@ package ru.Pavel.Services;
 import org.springframework.stereotype.Service;
 import ru.Pavel.Domain.Entities.Segment;
 import ru.Pavel.Domain.Entities.User;
+import ru.Pavel.Domain.Exceptions.BadSegmentException;
 import ru.Pavel.Domain.Exceptions.UserNotFoundException;
 import ru.Pavel.Domain.Persistance.Repositories.UserRepository;
 
@@ -33,9 +34,9 @@ public class UserService {
         return user.getSegments();
     }
 
-    public void addSegmentsToUser(long user_id, List<Segment> segmentsToAdd) throws UserNotFoundException{
+    public void addSegmentsToUser(long user_id, List<Segment> segmentsToAdd) throws UserNotFoundException, BadSegmentException {
         User user = users.getUser(user_id);
-        System.out.println(user.getId());
+
         user.addSegments(segmentsToAdd);
     }
 

@@ -59,4 +59,5 @@ public class UserSegmentTable extends PostgresqlTable {
 
     }
 
+
 }

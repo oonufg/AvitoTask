@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.Pavel.Domain.Entities.Segment;
+import ru.Pavel.Domain.Exceptions.BadSegmentException;
 import ru.Pavel.Domain.Exceptions.UserNotFoundException;
 import ru.Pavel.Services.UserService;
 
@@ -42,7 +43,6 @@ public class UserController {
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(jsonSerializer.toJson(userSegments));
         }catch(UserNotFoundException exception){
-            System.out.println(exception.getMessage());
             return ResponseEntity.notFound().build();
         }
 
@@ -51,10 +51,11 @@ public class UserController {
     public ResponseEntity<?> handleAddSegmentsToUser(@PathVariable("id") long userId, @RequestBody List<Segment> segments){
         try {
             userService.addSegmentsToUser(userId, segments);
-        }catch(UserNotFoundException exception){
+            return ResponseEntity.ok("");
+        }catch(UserNotFoundException exception ){
             return ResponseEntity.notFound().build();
+        }catch(BadSegmentException exception){
+            return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok("");
     }
-
 }
