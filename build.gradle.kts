@@ -14,12 +14,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
 
     implementation("org.postgresql:postgresql:42.6.0")
-    implementation("org.springframework:spring-core:6.0.11")
-    implementation("org.springframework:spring-beans:6.0.11")
-    implementation("org.springframework:spring-context:6.0.11")
-    implementation("org.springframework:spring-web:6.0.11")
-    implementation("org.springframework:spring-webmvc:6.0.11")
-    compileOnly("jakarta.servlet:jakarta.servlet-api:6.0.0")
+    implementation("org.springframework.boot:spring-boot-starter-web:3.1.4")
     implementation("com.google.code.gson:gson:2.10.1")
 
 
