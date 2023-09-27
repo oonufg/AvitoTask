@@ -2,7 +2,7 @@ REST API
 -------------------
 ___________________
 SegmentService
-POST /segment
+POST /segment #Создать сегмень
 {
     slug
 }
@@ -10,7 +10,7 @@ RESPONSE:
 -201,{slug}
 -400
 
-DELETE /segment:
+DELETE /segment: #Удалить сегмент
 {
     slug
 }
@@ -21,17 +21,24 @@ RESPONSE:
 _______________________
 UserService
 
-POST /user
+POST /user #Создать пользователя
 {
 
 }
 RESPONSE:
 201,{id}
 
-GET /user{id}
+GET /user{id} #Получить сегменты пользователя
 RESPONSE:
 200,{[segment]}
 404
+
+POST /user{id} #Добавить сегменты пользователю
+[
+  {
+    segments
+  }
+]
 
 ----------------------
 _______________________
