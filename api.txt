@@ -2,7 +2,7 @@ REST API
 -------------------
 ___________________
 SegmentService
-POST /segment #Создать сегмень
+POST /segment #Создать сегмент
 {
     slug
 }
