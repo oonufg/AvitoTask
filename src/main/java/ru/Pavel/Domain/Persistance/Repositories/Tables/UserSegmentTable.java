@@ -1,5 +1,8 @@
 package ru.Pavel.Domain.Persistance.Repositories.Tables;
 
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import ru.Pavel.Domain.Persistance.Repositories.Tables.DataSource.PostgresqlTable;
 
 import java.sql.PreparedStatement;
@@ -9,15 +12,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+@Component
 public class UserSegmentTable extends PostgresqlTable {
+    @Value("${pgsql.url}")
     private String url;
+    @Value("${pgsql.username}")
     private String username;
+    @Value("${pgsql.password}")
     private String password;
 
     public UserSegmentTable(){
-        this.url = "jdbc:postgresql://localhost:5432/segments_service";
-        this.username = "postgres";
-        this.password = "177013";
+        init();
+    }
+
+    @PostConstruct
+    private void init(){
         setupConnection(url,username,password);
     }
 
