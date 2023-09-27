@@ -19,6 +19,7 @@ public class SegmentTable extends PostgresqlTable {
     private String username;
     @Value("${pgsql.password}")
     private String password;
+
     public SegmentTable(){
         init();
     }

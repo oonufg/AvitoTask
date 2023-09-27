@@ -1,5 +1,7 @@
 plugins {
-    id("java")
+    id("java-library")
+    id("org.springframework.boot") version "3.1.4"
+    id("io.spring.dependency-management") version "1.1.3"
 }
 
 group = "ru.Pavel"
@@ -22,6 +24,10 @@ dependencies {
 
 
 }
+
+tasks.jar {
+}
+
 
 tasks.test {
     useJUnitPlatform()
