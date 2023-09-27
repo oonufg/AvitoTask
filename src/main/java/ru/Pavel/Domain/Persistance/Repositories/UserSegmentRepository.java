@@ -20,13 +20,15 @@ public class UserSegmentRepository {
     }
 
     public void addSegmentsToUser(User user, List<Segment> segments ) throws  BadSegmentException{
-        if(isSegmentValid(segments.get(0))) {
-            userSegmentTable.addSegmentToUser(user.getId(), segments.get(0).getId());
+        for(Segment currentSegment: segments){
+            if(isSegmentValid(currentSegment)) {
+                userSegmentTable.addSegmentToUser(user.getId(), currentSegment.getId());
+                System.out.println("ok");
+            }
+            else{
+                throw new BadSegmentException("Bad segment");
+            }
         }
-        else{
-            throw new BadSegmentException("OhNO");
-        }
-
     }
 
     public void deleteSegmentsFromUser(User user, List<Segment> segments ){
