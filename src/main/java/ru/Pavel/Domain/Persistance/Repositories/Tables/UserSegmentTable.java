@@ -52,6 +52,29 @@ public class UserSegmentTable extends PostgresqlTable {
         }
     }
 
+    public boolean isUserHaveSegment(long userId, long segmentId){
+        boolean result = true;
+        try{
+            PreparedStatement query = getIsUserHaveSegmentStatement(userId, segmentId);
+            ResultSet queryResult = executeQuery(query);
+            if(isResultSetEmpty(queryResult)){
+                result = false;
+            }
+
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return result;
+    }
+
+    private PreparedStatement getIsUserHaveSegmentStatement(long userId, long segmentId) throws SQLException{
+        String query = "SELECT * FROM users_segments WHERE user_id =? AND segment_id =?";
+        PreparedStatement statement = getStatement(query);
+        statement.setLong(1, userId);
+        statement.setLong(2, segmentId);
+        return statement;
+    }
+
     private PreparedStatement getAddSegmentsToUserStatement(long user_id, long segment_id) throws SQLException{
         String query = "INSERT INTO users_segments(user_id,segments_id) VALUES(?,?)";
         PreparedStatement statement = getStatement(query);
@@ -65,7 +88,6 @@ public class UserSegmentTable extends PostgresqlTable {
         PreparedStatement statement = getStatement(query);
         statement.setLong(1,user_id);
         return statement;
-
     }
 
 

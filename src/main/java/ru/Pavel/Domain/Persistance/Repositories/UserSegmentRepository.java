@@ -3,6 +3,7 @@ package ru.Pavel.Domain.Persistance.Repositories;
 import ru.Pavel.Domain.Entities.Segment;
 import ru.Pavel.Domain.Entities.User;
 import ru.Pavel.Domain.Exceptions.BadSegmentException;
+import ru.Pavel.Domain.Exceptions.UserAlreadyHaveSegmentException;
 import ru.Pavel.Domain.Persistance.Repositories.Mapper.SegmentMapper;
 import ru.Pavel.Domain.Persistance.Repositories.Tables.SegmentTable;
 import ru.Pavel.Domain.Persistance.Repositories.Tables.UserSegmentTable;
@@ -19,11 +20,15 @@ public class UserSegmentRepository {
         segmentTable = new SegmentTable();
     }
 
-    public void addSegmentsToUser(User user, List<Segment> segments ) throws  BadSegmentException{
+    public void addSegmentsToUser(User user, List<Segment> segments ) throws  BadSegmentException, UserAlreadyHaveSegmentException{
         for(Segment currentSegment: segments){
-            if(isSegmentValid(currentSegment)) {
-                userSegmentTable.addSegmentToUser(user.getId(), currentSegment.getId());
-                System.out.println("ok");
+            if(isSegmentValid(currentSegment) ) {
+                if(isUserAlreadyHaveSegment(user, currentSegment)){
+                    userSegmentTable.addSegmentToUser(user.getId(), currentSegment.getId());
+                }
+                else {
+                    throw new UserAlreadyHaveSegmentException("Already have");
+                }
             }
             else{
                 throw new BadSegmentException("Bad segment");
@@ -42,6 +47,13 @@ public class UserSegmentRepository {
 
     private boolean isSegmentValid(Segment segmentToCheck){
         if(segmentTable.isSegmentExist(segmentToCheck.getId(),segmentToCheck.getSlug())){
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isUserAlreadyHaveSegment(User user, Segment segment){
+        if(userSegmentTable.isUserHaveSegment(user.getId(),segment.getId())){
             return true;
         }
         return false;

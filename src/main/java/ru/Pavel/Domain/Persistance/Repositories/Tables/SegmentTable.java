@@ -97,11 +97,5 @@ public class SegmentTable extends PostgresqlTable {
         PreparedStatement statement = getStatement(query);
         return statement;
     }
-    private boolean isResultSetEmpty(ResultSet set) throws SQLException{
-        boolean result = false;
-        if(set.next()){
-            result = true;
-        }
-        return result;
-    }
+
 }

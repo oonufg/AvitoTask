@@ -49,6 +49,13 @@ public abstract class AbstractTable {
         return result;
     }
 
+    protected boolean isResultSetEmpty(ResultSet set) throws SQLException{
+        boolean result = false;
+        if(set.next()){
+            result = true;
+        }
+        return result;
+    }
 
     protected void setupConnection(String url, String username, String password){
         initJDBCDriver();

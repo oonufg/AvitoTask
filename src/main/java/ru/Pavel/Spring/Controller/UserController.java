@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.Pavel.Domain.Entities.Segment;
 import ru.Pavel.Domain.Exceptions.BadSegmentException;
+import ru.Pavel.Domain.Exceptions.UserAlreadyHaveSegmentException;
 import ru.Pavel.Domain.Exceptions.UserNotFoundException;
 import ru.Pavel.Services.UserService;
 
@@ -55,6 +56,8 @@ public class UserController {
         }catch(UserNotFoundException exception ){
             return ResponseEntity.notFound().build();
         }catch(BadSegmentException exception){
+            return ResponseEntity.badRequest().build();
+        }catch (UserAlreadyHaveSegmentException exception){
             return ResponseEntity.badRequest().build();
         }
     }
