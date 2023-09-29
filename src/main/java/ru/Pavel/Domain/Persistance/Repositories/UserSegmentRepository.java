@@ -26,7 +26,6 @@ public class UserSegmentRepository {
         for(Segment currentSegment: segments){
             if(isSegmentValid(currentSegment) ) {
                 if(!isUserAlreadyHaveSegment(user, currentSegment)){
-                    System.out.println(currentSegment.getSlug());
                     userSegmentTable.addSegmentToUser(user.getId(), currentSegment.getId());
                 }
                 else {
@@ -50,7 +49,6 @@ public class UserSegmentRepository {
                 }
             }
             else{
-                System.out.println("Bad Segment");
                 throw new BadSegmentException("Bad segment");
             }
         }

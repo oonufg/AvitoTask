@@ -57,7 +57,6 @@ public class UserSegmentTable extends PostgresqlTable {
             PreparedStatement query = getDeleteUserSegmentStatement(user_id, segment_id);
             executeQuery(query);
         }catch(SQLException exception){
-            System.out.println("just beacause");
             System.out.println(exception.getMessage());
         }
     }
