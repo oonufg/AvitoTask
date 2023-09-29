@@ -63,7 +63,7 @@ public class UserController {
         }
     }
 
-    @DeleteMapping("{id}/delete")
+    @DeleteMapping("{id}/d")
     public ResponseEntity<?> handleDeleteUserSegments(@PathVariable("id") long userId, @RequestBody List<Segment> segments){
         try {
             userService.deleteUserSegments(userId, segments);
