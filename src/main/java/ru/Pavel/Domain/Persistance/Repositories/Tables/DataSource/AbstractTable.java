@@ -50,9 +50,9 @@ public abstract class AbstractTable {
     }
 
     protected boolean isResultSetEmpty(ResultSet set) throws SQLException{
-        boolean result = false;
+        boolean result = true;
         if(set.next()){
-            result = true;
+            result = false;
         }
         return result;
     }

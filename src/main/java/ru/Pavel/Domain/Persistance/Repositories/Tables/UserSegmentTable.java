@@ -52,14 +52,31 @@ public class UserSegmentTable extends PostgresqlTable {
         }
     }
 
+    public void deleteUserSegment(long user_id,long segment_id){
+        try{
+            PreparedStatement query = getDeleteUserSegmentStatement(user_id, segment_id);
+            executeQuery(query);
+        }catch(SQLException exception){
+            System.out.println("just beacause");
+            System.out.println(exception.getMessage());
+        }
+    }
+
+    private PreparedStatement getDeleteUserSegmentStatement(long user_id, long segment_id) throws SQLException{
+        String query = "DELETE FROM users_segments WHERE user_id = ? AND segments_id = ?";
+        PreparedStatement statement = getStatement(query);
+        statement.setLong(1,user_id);
+        statement.setLong(2,segment_id);
+        return statement;
+
+    }
+
     public boolean isUserHaveSegment(long userId, long segmentId){
         boolean result = true;
         try{
             PreparedStatement query = getIsUserHaveSegmentStatement(userId, segmentId);
             ResultSet queryResult = executeQuery(query);
-            if(isResultSetEmpty(queryResult)){
-                result = false;
-            }
+            result = !isResultSetEmpty(queryResult);
 
         }catch(SQLException e){
             System.out.println(e.getMessage());
@@ -68,7 +85,7 @@ public class UserSegmentTable extends PostgresqlTable {
     }
 
     private PreparedStatement getIsUserHaveSegmentStatement(long userId, long segmentId) throws SQLException{
-        String query = "SELECT * FROM users_segments WHERE user_id =? AND segment_id =?";
+        String query = "SELECT * FROM users_segments WHERE user_id =? AND segments_id =?";
         PreparedStatement statement = getStatement(query);
         statement.setLong(1, userId);
         statement.setLong(2, segmentId);

@@ -4,6 +4,8 @@ import ru.Pavel.Domain.Entities.Segment;
 import ru.Pavel.Domain.Entities.User;
 import ru.Pavel.Domain.Exceptions.BadSegmentException;
 import ru.Pavel.Domain.Exceptions.UserAlreadyHaveSegmentException;
+import ru.Pavel.Domain.Exceptions.UserNotFoundException;
+import ru.Pavel.Domain.Exceptions.UserNotHaveSegmentException;
 import ru.Pavel.Domain.Persistance.Repositories.Mapper.SegmentMapper;
 import ru.Pavel.Domain.Persistance.Repositories.Tables.SegmentTable;
 import ru.Pavel.Domain.Persistance.Repositories.Tables.UserSegmentTable;
@@ -23,7 +25,8 @@ public class UserSegmentRepository {
     public void addSegmentsToUser(User user, List<Segment> segments ) throws  BadSegmentException, UserAlreadyHaveSegmentException{
         for(Segment currentSegment: segments){
             if(isSegmentValid(currentSegment) ) {
-                if(isUserAlreadyHaveSegment(user, currentSegment)){
+                if(!isUserAlreadyHaveSegment(user, currentSegment)){
+                    System.out.println(currentSegment.getSlug());
                     userSegmentTable.addSegmentToUser(user.getId(), currentSegment.getId());
                 }
                 else {
@@ -36,8 +39,21 @@ public class UserSegmentRepository {
         }
     }
 
-    public void deleteSegmentsFromUser(User user, List<Segment> segments ){
-
+    public void deleteSegmentsFromUser(User user, List<Segment> segments ) throws BadSegmentException, UserNotHaveSegmentException {
+        for(Segment currentSegment: segments){
+            if(isSegmentValid(currentSegment) ) {
+                if(isUserAlreadyHaveSegment(user, currentSegment)){
+                    userSegmentTable.deleteUserSegment(user.getId(), currentSegment.getId());
+                }
+                else {
+                    throw new UserNotHaveSegmentException("Already have");
+                }
+            }
+            else{
+                System.out.println("Bad Segment");
+                throw new BadSegmentException("Bad segment");
+            }
+        }
     }
 
     public List<Segment> getUserSegments(User user){

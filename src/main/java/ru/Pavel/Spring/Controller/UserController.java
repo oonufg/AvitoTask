@@ -9,6 +9,7 @@ import ru.Pavel.Domain.Entities.Segment;
 import ru.Pavel.Domain.Exceptions.BadSegmentException;
 import ru.Pavel.Domain.Exceptions.UserAlreadyHaveSegmentException;
 import ru.Pavel.Domain.Exceptions.UserNotFoundException;
+import ru.Pavel.Domain.Exceptions.UserNotHaveSegmentException;
 import ru.Pavel.Services.UserService;
 
 import java.util.List;
@@ -61,4 +62,19 @@ public class UserController {
             return ResponseEntity.badRequest().build();
         }
     }
+
+    @DeleteMapping("{id}/delete")
+    public ResponseEntity<?> handleDeleteUserSegments(@PathVariable("id") long userId, @RequestBody List<Segment> segments){
+        try {
+            userService.deleteUserSegments(userId, segments);
+            return ResponseEntity.ok("");
+        }catch(UserNotFoundException exception ){
+            return ResponseEntity.notFound().build();
+        }catch(BadSegmentException exception){
+            return ResponseEntity.badRequest().build();
+        }catch (UserNotHaveSegmentException exception){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
 }

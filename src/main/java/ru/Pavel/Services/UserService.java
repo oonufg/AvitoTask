@@ -6,6 +6,7 @@ import ru.Pavel.Domain.Entities.User;
 import ru.Pavel.Domain.Exceptions.BadSegmentException;
 import ru.Pavel.Domain.Exceptions.UserAlreadyHaveSegmentException;
 import ru.Pavel.Domain.Exceptions.UserNotFoundException;
+import ru.Pavel.Domain.Exceptions.UserNotHaveSegmentException;
 import ru.Pavel.Domain.Persistance.Repositories.UserRepository;
 
 import java.util.List;
@@ -39,6 +40,13 @@ public class UserService {
         User user = users.getUser(user_id);
 
         user.addSegments(segmentsToAdd);
+    }
+
+    public void deleteUserSegments(long user_id, List<Segment> segmentsToDelete)  throws UserNotFoundException, BadSegmentException, UserNotHaveSegmentException {
+        User user = users.getUser(user_id);
+
+        user.deleteSegments(segmentsToDelete);
+
     }
 
 }

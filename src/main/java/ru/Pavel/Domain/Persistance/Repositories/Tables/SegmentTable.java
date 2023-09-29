@@ -63,7 +63,7 @@ public class SegmentTable extends PostgresqlTable {
         try{
             PreparedStatement query = getIsSegmentExistSegment(id,slug);
             ResultSet queryResult =  executeQuery(query);
-            result = isResultSetEmpty(queryResult);
+            result = !isResultSetEmpty(queryResult);
         }catch(SQLException exception){
             System.out.println(exception.getMessage());
         }
