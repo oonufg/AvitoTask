@@ -6,5 +6,5 @@ github.com/avito-tech/backend-trainee-assignment-2023
 1| cd Docker\
 2| sudo docker-compose up
 
-После запуска доступен по адресу:/
+После запуска доступен по адресу:\
 http://localhost:8000/api/v1/{end_point}
