@@ -24,17 +24,23 @@ public class UserSegmentRepository {
         segmentTable = new SegmentTable();
     }
 
+    public void addSegmentToUser(User user, Segment segment) throws  UserAlreadyHaveSegmentException{
+        long currentTimestamp = Calendar.getInstance().getTimeInMillis();
+        String action = ActionsWithSegments.ADDING.getTitle();
+        if(!isUserAlreadyHaveSegment(user, segment)){
+            userSegmentTable.addSegmentToUser(user.getId(), segment.getId(),action ,currentTimestamp);
+        }
+        else {
+            throw new UserAlreadyHaveSegmentException("Already have");
+        }
+    }
+
     public void addSegmentsToUser(User user, List<Segment> segments ) throws  BadSegmentException, UserAlreadyHaveSegmentException{
         long currentTimestamp = Calendar.getInstance().getTimeInMillis();
         String action = ActionsWithSegments.ADDING.getTitle();
         for(Segment currentSegment: segments){
             if(isSegmentValid(currentSegment) ) {
-                if(!isUserAlreadyHaveSegment(user, currentSegment)){
-                    userSegmentTable.addSegmentToUser(user.getId(), currentSegment.getId(),action ,currentTimestamp);
-                }
-                else {
-                    throw new UserAlreadyHaveSegmentException("Already have");
-                }
+                addSegmentToUser(user,currentSegment);
             }
             else{
                 throw new BadSegmentException("Bad segment");

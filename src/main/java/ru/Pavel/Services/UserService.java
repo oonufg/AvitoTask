@@ -50,6 +50,5 @@ public class UserService {
     public void deleteUserSegments(long user_id, List<Segment> segmentsToDelete)  throws UserNotFoundException, BadSegmentException, UserNotHaveSegmentException {
         User user = users.getUser(user_id);
         user.deleteSegments(segmentsToDelete);
-
     }
 }

@@ -6,6 +6,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.Pavel.Domain.Entities.Segment;
+import ru.Pavel.Domain.Exceptions.BadSegmentException;
+import ru.Pavel.Domain.Exceptions.UserAlreadyHaveSegmentException;
 import ru.Pavel.Services.SegmentService;
 
 import java.util.List;
@@ -32,6 +34,19 @@ public class SegmentController {
         segmentService.createSegment(segment);
         return ResponseEntity.ok("");
     }
+
+    @PostMapping("/p")
+    public ResponseEntity<?> handleCreateSegmentWithPercent(@RequestBody Segment segment, @RequestHeader("percent") double percent){
+        try {
+            segmentService.createSegment(segment,percent);
+            return ResponseEntity.ok("");
+        }catch (UserAlreadyHaveSegmentException e){
+            return ResponseEntity.badRequest().body("");
+        }catch (BadSegmentException e){
+            return ResponseEntity.badRequest().body("");
+        }
+    }
+
 
     @DeleteMapping()
     public ResponseEntity<?> handleDeleteSegment(@RequestBody Segment segment){

@@ -130,4 +130,11 @@ public class UserSegmentTable extends PostgresqlTable {
         return statement;
     }
 
+    private PreparedStatement getUserWithoutSegmetnsStatement(long segment_id) throws SQLException{
+        String query = "SELECT users.id FROM users_segments WHERE segment_id <> ?";
+        PreparedStatement statement = getStatement(query);
+        statement.setLong(1, segment_id);
+        return statement;
+    }
+
 }

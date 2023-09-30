@@ -9,10 +9,10 @@ import java.util.List;
 
 public class User {
     private long id;
-    private static UserSegmentRepository segments;
+    private static UserSegmentRepository segmentRepository;
 
     static{
-        segments = new UserSegmentRepository();
+        segmentRepository = new UserSegmentRepository();
     }
 
     public User(long userId){
@@ -20,18 +20,22 @@ public class User {
     }
 
     public List<Segment> getSegments() {
-        return segments.getUserSegments(this);
+        return segmentRepository.getUserSegments(this);
     }
     public List<UserSegment> getSegmentsHistory(){
-        return segments.getUserSegmentsHistory(this);
+        return segmentRepository.getUserSegmentsHistory(this);
     }
 
-    public void addSegments(List<Segment> segment)throws BadSegmentException, UserAlreadyHaveSegmentException {
-        segments.addSegmentsToUser(this, segment);
+    public void addSegments(List<Segment> segmentList)throws BadSegmentException, UserAlreadyHaveSegmentException {
+        segmentRepository.addSegmentsToUser(this, segmentList);
     }
+    
+    public void addSegment(Segment segment) throws  BadSegmentException, UserAlreadyHaveSegmentException{
+        segmentRepository.addSegmentToUser(this,segment);
+    } 
 
     public void deleteSegments(List<Segment> segment)  throws  BadSegmentException, UserNotHaveSegmentException {
-        segments.deleteSegmentsFromUser(this, segment);
+        segmentRepository.deleteSegmentsFromUser(this, segment);
     }
 
     public long getId(){

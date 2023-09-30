@@ -26,6 +26,11 @@ public class SegmentRepository {
         return result;
     }
 
+    public Segment getCertainSegment(String slug){
+        Segment segment = SegmentMapper.mapSegment(segmentTable.getCertainSegment(slug));
+        return segment;
+    }
+
     public boolean isSegmentExist(Segment segment){
         return segmentTable.isSegmentExist(segment.getId(),segment.getSlug());
     }

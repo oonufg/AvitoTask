@@ -8,7 +8,9 @@ import ru.Pavel.Domain.Persistance.Repositories.Tables.DataSource.PostgresqlTabl
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 @Component
 public class UserTable extends PostgresqlTable {
@@ -58,6 +60,18 @@ public class UserTable extends PostgresqlTable {
         return result;
     }
 
+    public List<Map<String, Object>> getAllUsers(){
+        List<Map<String, Object>> result = new ArrayList<>();
+        try{
+            PreparedStatement query = getAllUsersStatement();
+            ResultSet queryResult = executeQuery(query);
+            result.addAll(resutlSetToList(queryResult));
+        }catch(SQLException exception){
+            System.out.println(exception.getMessage());
+        }
+        return result;
+    }
+
 
 
     private PreparedStatement getCreateUserStatement() throws SQLException {
@@ -80,8 +94,10 @@ public class UserTable extends PostgresqlTable {
         return statement;
     }
 
-
-
-
+    private PreparedStatement getAllUsersStatement() throws SQLException{
+        String query = "SELECT * FROM users";
+        PreparedStatement statement = getStatement(query);
+        return statement;
+    }
 
 }

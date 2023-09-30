@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 @Component
@@ -58,6 +59,19 @@ public class SegmentTable extends PostgresqlTable {
         return queryResult;
     }
 
+    public Map<String,Object> getCertainSegment(String slug){
+        Map<String,Object> result = new HashMap<>();
+        try{
+            PreparedStatement query = getCertainSegmentStatement(slug);
+            ResultSet queryResult = executeQuery(query);
+            queryResult.next();
+            result.putAll(resultSetToMap(queryResult));
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return result;
+    }
+
     public boolean isSegmentExist(long id, String slug){
         boolean result = false;
         try{
@@ -98,4 +112,10 @@ public class SegmentTable extends PostgresqlTable {
         return statement;
     }
 
+    private PreparedStatement getCertainSegmentStatement(String slug) throws SQLException{
+        String query = "SELECT * FROM segments WHERE slug = ?";
+        PreparedStatement statement = getStatement(query);
+        statement.setString(1, slug);
+        return statement;
+        }
 }
