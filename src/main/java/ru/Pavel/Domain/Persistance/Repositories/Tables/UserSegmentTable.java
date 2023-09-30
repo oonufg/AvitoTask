@@ -124,7 +124,7 @@ public class UserSegmentTable extends PostgresqlTable {
     }
 
     private PreparedStatement getUserSegmentsHistoryStatement(long user_id) throws SQLException{
-        String query = "SELECT segments.id, segments.slug, users_segments.action, users_segments.timestamp FROM users_segments LEFT JOIN segments ON users_segments.segment_id= segments.id WHERE users_segments.user_id = ?";
+        String query = "SELECT segments.id, segments.slug, users_segments.action, users_segments.timestamp FROM users_segments LEFT JOIN segments ON users_segments.segment_id= segments.id WHERE users_segments.user_id = ? ORDER BY timestamp DESC";
         PreparedStatement statement =  getStatement(query);
         statement.setLong(1, user_id);
         return statement;
