@@ -44,6 +44,18 @@ public class UserSegmentTable extends PostgresqlTable {
         return result;
     }
 
+    public List<Map<String, Object>> getUserSegmentsHistory(long user_id){
+        List<Map<String, Object>> result = new ArrayList<>();
+        try{
+            PreparedStatement query = getUserSegmentsHistoryStatement(user_id);
+            ResultSet queryResult = executeQuery(query);
+            result.addAll(resutlSetToList(queryResult));
+        }catch (SQLException exception){
+            System.out.println(exception.getMessage());
+        }
+        return result;
+    }
+
     public void addSegmentToUser(long user_id, long segment_id, String action, long timestamp){
         try{
             PreparedStatement query = getAddSegmentsToUserStatement(user_id, segment_id, action, timestamp);
@@ -109,5 +121,11 @@ public class UserSegmentTable extends PostgresqlTable {
         return statement;
     }
 
+    private PreparedStatement getUserSegmentsHistoryStatement(long user_id) throws SQLException{
+        String query = "SELECT segments.id, segments.slug, users_segments.action, users_segments.timestamp FROM users_segments LEFT JOIN segments ON users_segments.segment_id= segments.id WHERE users_segments.user_id = ?";
+        PreparedStatement statement =  getStatement(query);
+        statement.setLong(1, user_id);
+        return statement;
+    }
 
 }

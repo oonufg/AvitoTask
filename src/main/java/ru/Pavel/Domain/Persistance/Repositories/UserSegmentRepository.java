@@ -2,10 +2,11 @@ package ru.Pavel.Domain.Persistance.Repositories;
 
 import ru.Pavel.Domain.Entities.Segment;
 import ru.Pavel.Domain.Entities.User;
+import ru.Pavel.Domain.Entities.UserSegment;
 import ru.Pavel.Domain.Exceptions.BadSegmentException;
 import ru.Pavel.Domain.Exceptions.UserAlreadyHaveSegmentException;
-import ru.Pavel.Domain.Exceptions.UserNotFoundException;
 import ru.Pavel.Domain.Exceptions.UserNotHaveSegmentException;
+import ru.Pavel.Domain.Persistance.Repositories.Enums.ActionsWithSegments;
 import ru.Pavel.Domain.Persistance.Repositories.Mapper.SegmentMapper;
 import ru.Pavel.Domain.Persistance.Repositories.Tables.SegmentTable;
 import ru.Pavel.Domain.Persistance.Repositories.Tables.UserSegmentTable;
@@ -59,6 +60,11 @@ public class UserSegmentRepository {
 
     public List<Segment> getUserSegments(User user){
         List<Segment> result = SegmentMapper.mapListOfSegments(userSegmentTable.getUserSegments(user.getId()));
+        return result;
+    }
+
+    public List<UserSegment> getUserSegmentsHistory(User user){
+        List<UserSegment> result = SegmentMapper.mapListOfUserSegments(userSegmentTable.getUserSegmentsHistory(user.getId()));
         return result;
     }
 

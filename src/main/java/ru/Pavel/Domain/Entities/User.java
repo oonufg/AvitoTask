@@ -22,6 +22,9 @@ public class User {
     public List<Segment> getSegments() {
         return segments.getUserSegments(this);
     }
+    public List<UserSegment> getSegmentsHistory(){
+        return segments.getUserSegmentsHistory(this);
+    }
 
     public void addSegments(List<Segment> segment)throws BadSegmentException, UserAlreadyHaveSegmentException {
         segments.addSegmentsToUser(this, segment);

@@ -6,6 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.Pavel.Domain.Entities.Segment;
+import ru.Pavel.Domain.Entities.UserSegment;
 import ru.Pavel.Domain.Exceptions.BadSegmentException;
 import ru.Pavel.Domain.Exceptions.UserAlreadyHaveSegmentException;
 import ru.Pavel.Domain.Exceptions.UserNotFoundException;
@@ -47,9 +48,21 @@ public class UserController {
         }catch(UserNotFoundException exception){
             return ResponseEntity.notFound().build();
         }
-
     }
-    @PostMapping("{id}")
+
+    @GetMapping("{id}/h")
+    public ResponseEntity<?> handleGetUserSegmentsHistory(@PathVariable("id") long userId){
+        try{
+            List<UserSegment> userSegmentsHistory = userService.getUserSegmentsHistory(userId);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(jsonSerializer.toJson(userSegmentsHistory));
+        }catch (UserNotFoundException exception){
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @PostMapping("{id}/a")
     public ResponseEntity<?> handleAddSegmentsToUser(@PathVariable("id") long userId, @RequestBody List<Segment> segments){
         try {
             userService.addSegmentsToUser(userId, segments);
