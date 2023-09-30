@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import ru.Pavel.Domain.Entities.Segment;
 import ru.Pavel.Domain.Entities.User;
 import ru.Pavel.Domain.Exceptions.BadSegmentException;
+import ru.Pavel.Domain.Exceptions.InvalidPercentException;
 import ru.Pavel.Domain.Exceptions.UserAlreadyHaveSegmentException;
 import ru.Pavel.Domain.Persistance.Repositories.SegmentRepository;
 import ru.Pavel.Domain.Persistance.Repositories.UserRepository;
@@ -30,17 +31,10 @@ public class SegmentService {
         segmentRepository.appendSegment(segment);
     }
 
-    public void createSegment(Segment segment, double percent) throws BadSegmentException, UserAlreadyHaveSegmentException {
+    public void createSegment(Segment segment, double percent) throws BadSegmentException, UserAlreadyHaveSegmentException, InvalidPercentException {
         segmentRepository.appendSegment(segment);
-        Segment currentSegment = segmentRepository.getCertainSegment(segment.getSlug());
-
-        List<User> userList = userRepository.getAllUsers();
-        Collections.shuffle(userList);
-        int numberOfPeopleToAdd = (int)(userList.size() * (percent / 100));
-        for(int i = 0; i < numberOfPeopleToAdd; i++){
-            User currentUser = userList.get(i);
-            currentUser.addSegment(currentSegment);
-        }
+        Segment  newSegment = segmentRepository.getCertainSegment(segment.getSlug());
+        addNewSegmentToPercentOfUsers(newSegment, percent);
     }
 
     public void deleteSegment(Segment segment){
@@ -50,5 +44,22 @@ public class SegmentService {
         return segmentRepository.getAllSegments();
     }
 
+    private int calculateUserCount(int userCount, double percent) throws InvalidPercentException{
+        double calculatedPercent = percent / 100;
+        if(calculatedPercent == 0 || calculatedPercent > 1){
+            throw new InvalidPercentException("Invalid");
+        }
+        return (int)(userCount * calculatedPercent);
+    }
+
+    private void addNewSegmentToPercentOfUsers(Segment segment, double percent) throws InvalidPercentException, UserAlreadyHaveSegmentException, BadSegmentException {
+        List<User> userList = userRepository.getAllUsers();
+        int numberOfPeopleToAdd = calculateUserCount(userList.size(), percent);
+        Collections.shuffle(userList);
+        for (int i = 0; i < numberOfPeopleToAdd; i++) {
+            User currentUser = userList.get(i);
+            currentUser.addSegment(segment);
+        }
+    }
 
 }
