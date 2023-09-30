@@ -88,7 +88,6 @@ ___
 * ### Добавить сегменты пользователю
         POST: /user/{USER_ID}/a
         HTTP HEADERS:
-        - percent = (Integer value)
         - timestamp = (Integer value) in nanoseconds
         [
             {
