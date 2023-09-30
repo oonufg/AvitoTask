@@ -12,8 +12,8 @@ CREATE TABLE IF NOT EXISTS segments(
 );
 
 CREATE TABLE IF NOT EXISTS users_segments(
-	user_id BIGINT REFERENCES users(id),
-	segment_id BIGINT REFERENCES segments(id),
-	action VARCHAR(15) CHECK (action = "adding" OR action = "removal") NOT NULL,
-	time  TIMESTAMP NOT NULL
+	user_id BIGINT REFERENCES users(id) ON DELETE CASCADE,
+	segment_id BIGINT REFERENCES segments(id) ON DELETE CASCADE,
+	action VARCHAR(15) CHECK (action = 'adding' OR action = 'removal') NOT NULL,
+	timestamp  TIMESTAMP NOT NULL
 );
