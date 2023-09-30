@@ -8,6 +8,7 @@ import ru.Pavel.Domain.Persistance.Repositories.Tables.DataSource.PostgresqlTabl
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -43,9 +44,9 @@ public class UserSegmentTable extends PostgresqlTable {
         return result;
     }
 
-    public void addSegmentToUser(long user_id, long segment_id){
+    public void addSegmentToUser(long user_id, long segment_id, String action, long timestamp){
         try{
-            PreparedStatement query = getAddSegmentsToUserStatement(user_id,segment_id);
+            PreparedStatement query = getAddSegmentsToUserStatement(user_id, segment_id, action, timestamp);
             executeQuery(query);
         }catch(SQLException e){
             System.out.println(e.getMessage());
@@ -84,18 +85,20 @@ public class UserSegmentTable extends PostgresqlTable {
     }
 
     private PreparedStatement getIsUserHaveSegmentStatement(long userId, long segmentId) throws SQLException{
-        String query = "SELECT * FROM users_segments WHERE user_id =? AND segments_id =?";
+        String query = "SELECT * FROM users_segments WHERE user_id =? AND segment_id =?";
         PreparedStatement statement = getStatement(query);
         statement.setLong(1, userId);
         statement.setLong(2, segmentId);
         return statement;
     }
 
-    private PreparedStatement getAddSegmentsToUserStatement(long user_id, long segment_id) throws SQLException{
-        String query = "INSERT INTO users_segments(user_id,segments_id) VALUES(?,?)";
+    private PreparedStatement getAddSegmentsToUserStatement(long user_id, long segment_id, String action, long timestamp) throws SQLException{
+        String query = "INSERT INTO users_segments(user_id, segment_id, action, timestamp) VALUES(?,?,?,?)";
         PreparedStatement statement = getStatement(query);
         statement.setLong(1,user_id);
         statement.setLong(2,segment_id);
+        statement.setString(3,action);
+        statement.setTimestamp(4,new Timestamp(timestamp));
         return statement;
     }
 

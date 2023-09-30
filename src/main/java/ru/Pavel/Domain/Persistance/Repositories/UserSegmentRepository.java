@@ -10,6 +10,7 @@ import ru.Pavel.Domain.Persistance.Repositories.Mapper.SegmentMapper;
 import ru.Pavel.Domain.Persistance.Repositories.Tables.SegmentTable;
 import ru.Pavel.Domain.Persistance.Repositories.Tables.UserSegmentTable;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class UserSegmentRepository {
@@ -23,10 +24,12 @@ public class UserSegmentRepository {
     }
 
     public void addSegmentsToUser(User user, List<Segment> segments ) throws  BadSegmentException, UserAlreadyHaveSegmentException{
+        long currentTimestamp = Calendar.getInstance().getTimeInMillis();
+        String action = ActionsWithSegments.ADDING.getTitle();
         for(Segment currentSegment: segments){
             if(isSegmentValid(currentSegment) ) {
                 if(!isUserAlreadyHaveSegment(user, currentSegment)){
-                    userSegmentTable.addSegmentToUser(user.getId(), currentSegment.getId());
+                    userSegmentTable.addSegmentToUser(user.getId(), currentSegment.getId(),action ,currentTimestamp);
                 }
                 else {
                     throw new UserAlreadyHaveSegmentException("Already have");
@@ -60,17 +63,10 @@ public class UserSegmentRepository {
     }
 
     private boolean isSegmentValid(Segment segmentToCheck){
-        if(segmentTable.isSegmentExist(segmentToCheck.getId(),segmentToCheck.getSlug())){
-            return true;
-        }
-        return false;
+        return segmentTable.isSegmentExist(segmentToCheck.getId(), segmentToCheck.getSlug());
     }
 
     private boolean isUserAlreadyHaveSegment(User user, Segment segment){
-        if(userSegmentTable.isUserHaveSegment(user.getId(),segment.getId())){
-            return true;
-        }
-        return false;
+        return userSegmentTable.isUserHaveSegment(user.getId(), segment.getId());
     }
-
 }
