@@ -32,7 +32,7 @@ public class SegmentTable extends PostgresqlTable {
     public void createSegment(String slug){
         try{
             PreparedStatement query = getCreateSegmentStatement(slug);
-            executeQuery(query);
+            executeUpdate(query);
         }catch(SQLException exception){
             System.out.println("-> " + exception.getMessage());
         }
@@ -41,7 +41,7 @@ public class SegmentTable extends PostgresqlTable {
     public void deleteSegment(String slug){
         try{
             PreparedStatement query = getDeleteSegmentStatement(slug);
-            executeQuery(query);
+            executeUpdate(query);
         }catch(SQLException exception){
             System.out.println("-> " + exception.getMessage());
         }

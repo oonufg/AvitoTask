@@ -32,7 +32,7 @@ public class UserTable extends PostgresqlTable {
     public void createUser(){
         try{
             PreparedStatement query = getCreateUserStatement();
-            executeQuery(query);
+            executeUpdate(query);
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
@@ -41,7 +41,7 @@ public class UserTable extends PostgresqlTable {
     public void deleteUser(long user_id){
         try{
             PreparedStatement query = getDeleteUserStatement(user_id);
-            executeQuery(query);
+            executeUpdate(query);
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
@@ -71,8 +71,6 @@ public class UserTable extends PostgresqlTable {
         }
         return result;
     }
-
-
 
     private PreparedStatement getCreateUserStatement() throws SQLException {
         String query = "INSERT INTO users(id) VALUES(DEFAULT)";

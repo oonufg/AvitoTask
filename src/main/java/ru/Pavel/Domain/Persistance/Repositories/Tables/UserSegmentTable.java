@@ -57,7 +57,7 @@ public class UserSegmentTable extends PostgresqlTable {
     public void addSegmentToUser(long user_id, long segment_id, String action, long timestamp, Long expired_timestamp){
         try{
             PreparedStatement query = getAddSegmentsToUserStatement(user_id, segment_id, action, timestamp, expired_timestamp);
-            executeQuery(query);
+            executeUpdate(query);
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
@@ -66,7 +66,7 @@ public class UserSegmentTable extends PostgresqlTable {
     public void deleteUserSegment(long user_id,long segment_id){
         try{
             PreparedStatement query = getDeleteUserSegmentStatement(user_id, segment_id);
-            executeQuery(query);
+            executeUpdate(query);
         }catch(SQLException exception){
             System.out.println(exception.getMessage());
         }
@@ -74,7 +74,7 @@ public class UserSegmentTable extends PostgresqlTable {
     public void deleteExpiredUserSegments(long timestamp){
         try{
             PreparedStatement query = deleteExpiredUserSegmentsStatement(timestamp);
-            ResultSet queryResult = executeQuery(query);
+            executeUpdate(query);
         }catch(SQLException exception){
             System.out.println(exception.getMessage());
         }

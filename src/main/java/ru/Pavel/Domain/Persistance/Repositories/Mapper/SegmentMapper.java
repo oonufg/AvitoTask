@@ -18,14 +18,16 @@ public class SegmentMapper {
     }
 
     public static UserSegment mapUserSegment(Map<String, Object> unmappedUserSegments){
-        UserSegment segment = new UserSegment(
+        UserSegment.UserSegmentBuilder builder = new UserSegment.UserSegmentBuilder(
                 (Long)unmappedUserSegments.get("id"),
                 (String)unmappedUserSegments.get("slug"),
                 (String)unmappedUserSegments.get("action"),
-                ((Timestamp)unmappedUserSegments.get("timestamp")).getTime(),
-                ((Timestamp)unmappedUserSegments.get("expired_timestamp")).getTime()
+                ((Timestamp)unmappedUserSegments.get("timestamp")).getTime()
         );
-        return segment;
+        if((Long)unmappedUserSegments.get("expired_timestamp") != null){
+            builder.setExpiredDate(((Timestamp)unmappedUserSegments.get("timestamp")).getTime());
+        }
+        return builder.build();
     }
 
     public static List<Segment> mapListOfSegments(List<Map<String,Object>> unmappedListOfSegments){

@@ -35,7 +35,7 @@ public class SegmentController {
     }
 
     @PostMapping("/p")
-    public ResponseEntity<?> handleCreateSegmentWithPercent(@RequestBody Segment segment, @RequestHeader("percent") double percent, @RequestHeader(value="timestamp", required=false) long timestamp){
+    public ResponseEntity<?> handleCreateSegmentWithPercent(@RequestBody Segment segment, @RequestHeader("percent") double percent, @RequestHeader(value="timestamp", required=false) Long timestamp){
         try {
             segmentService.createSegment(segment,percent,timestamp);
             return ResponseEntity.ok("");
