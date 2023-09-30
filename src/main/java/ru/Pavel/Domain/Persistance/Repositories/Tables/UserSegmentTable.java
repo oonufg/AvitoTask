@@ -3,6 +3,7 @@ package ru.Pavel.Domain.Persistance.Repositories.Tables;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import ru.Pavel.Domain.Persistance.Repositories.Enums.ActionsWithSegments;
 import ru.Pavel.Domain.Persistance.Repositories.Tables.DataSource.PostgresqlTable;
 
 import java.sql.PreparedStatement;
@@ -75,7 +76,7 @@ public class UserSegmentTable extends PostgresqlTable {
     }
 
     private PreparedStatement getDeleteUserSegmentStatement(long user_id, long segment_id) throws SQLException{
-        String query = "DELETE FROM users_segments WHERE user_id = ? AND segments_id = ?";
+        String query = "UPDATE users_segments  SET action = 'removal' WHERE user_id =? AND segment_id =? AND action = 'adding'";
         PreparedStatement statement = getStatement(query);
         statement.setLong(1,user_id);
         statement.setLong(2,segment_id);
@@ -86,7 +87,7 @@ public class UserSegmentTable extends PostgresqlTable {
     public boolean isUserHaveSegment(long userId, long segmentId){
         boolean result = true;
         try{
-            PreparedStatement query = getIsUserHaveSegmentStatement(userId, segmentId);
+            PreparedStatement query = getIsUserHaveSegmentStatement(userId, segmentId, ActionsWithSegments.ADDING.getTitle());
             ResultSet queryResult = executeQuery(query);
             result = !isResultSetEmpty(queryResult);
 
@@ -96,11 +97,12 @@ public class UserSegmentTable extends PostgresqlTable {
         return result;
     }
 
-    private PreparedStatement getIsUserHaveSegmentStatement(long userId, long segmentId) throws SQLException{
-        String query = "SELECT * FROM users_segments WHERE user_id =? AND segment_id =?";
+    private PreparedStatement getIsUserHaveSegmentStatement(long userId, long segmentId, String action) throws SQLException{
+        String query = "SELECT * FROM users_segments WHERE user_id =? AND segment_id =? AND action = ?";
         PreparedStatement statement = getStatement(query);
         statement.setLong(1, userId);
         statement.setLong(2, segmentId);
+        statement.setString(3, action);
         return statement;
     }
 
