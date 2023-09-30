@@ -22,7 +22,8 @@ public class SegmentMapper {
                 (Long)unmappedUserSegments.get("id"),
                 (String)unmappedUserSegments.get("slug"),
                 (String)unmappedUserSegments.get("action"),
-                ((Timestamp)unmappedUserSegments.get("timestamp")).getTime()
+                ((Timestamp)unmappedUserSegments.get("timestamp")).getTime(),
+                ((Timestamp)unmappedUserSegments.get("expired_timestamp")).getTime()
         );
         return segment;
     }

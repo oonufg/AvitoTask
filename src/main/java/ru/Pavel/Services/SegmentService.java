@@ -31,10 +31,10 @@ public class SegmentService {
         segmentRepository.appendSegment(segment);
     }
 
-    public void createSegment(Segment segment, double percent) throws BadSegmentException, UserAlreadyHaveSegmentException, InvalidPercentException {
+    public void createSegment(Segment segment, double percent, Long expiredTime) throws BadSegmentException, UserAlreadyHaveSegmentException, InvalidPercentException {
         segmentRepository.appendSegment(segment);
         Segment  newSegment = segmentRepository.getCertainSegment(segment.getSlug());
-        addNewSegmentToPercentOfUsers(newSegment, percent);
+        addNewSegmentToPercentOfUsers(newSegment, percent, expiredTime);
     }
 
     public void deleteSegment(Segment segment){
@@ -52,13 +52,13 @@ public class SegmentService {
         return (int)(userCount * calculatedPercent);
     }
 
-    private void addNewSegmentToPercentOfUsers(Segment segment, double percent) throws InvalidPercentException, UserAlreadyHaveSegmentException, BadSegmentException {
+    private void addNewSegmentToPercentOfUsers(Segment segment, double percent, long expired_timestamp) throws InvalidPercentException, UserAlreadyHaveSegmentException, BadSegmentException {
         List<User> userList = userRepository.getAllUsers();
         int numberOfPeopleToAdd = calculateUserCount(userList.size(), percent);
         Collections.shuffle(userList);
         for (int i = 0; i < numberOfPeopleToAdd; i++) {
             User currentUser = userList.get(i);
-            currentUser.addSegment(segment);
+            currentUser.addSegment(segment, expired_timestamp);
         }
     }
 

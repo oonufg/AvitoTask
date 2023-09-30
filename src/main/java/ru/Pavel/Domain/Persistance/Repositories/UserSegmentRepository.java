@@ -24,23 +24,24 @@ public class UserSegmentRepository {
         segmentTable = new SegmentTable();
     }
 
-    public void addSegmentToUser(User user, Segment segment) throws  UserAlreadyHaveSegmentException{
+    public void addSegmentToUser(User user, Segment segment, Long expired_timestamp) throws  UserAlreadyHaveSegmentException{
         long currentTimestamp = Calendar.getInstance().getTimeInMillis();
+        System.out.println(currentTimestamp);
         String action = ActionsWithSegments.ADDING.getTitle();
         if(!isUserAlreadyHaveSegment(user, segment)){
-            userSegmentTable.addSegmentToUser(user.getId(), segment.getId(),action ,currentTimestamp);
+            userSegmentTable.addSegmentToUser(user.getId(), segment.getId(), action, currentTimestamp, expired_timestamp);
         }
         else {
             throw new UserAlreadyHaveSegmentException("Already have");
         }
     }
 
-    public void addSegmentsToUser(User user, List<Segment> segments ) throws  BadSegmentException, UserAlreadyHaveSegmentException{
+    public void addSegmentsToUser(User user, List<Segment> segments, Long expired_timestamp) throws  BadSegmentException, UserAlreadyHaveSegmentException{
         long currentTimestamp = Calendar.getInstance().getTimeInMillis();
         String action = ActionsWithSegments.ADDING.getTitle();
         for(Segment currentSegment: segments){
             if(isSegmentValid(currentSegment) ) {
-                addSegmentToUser(user,currentSegment);
+                addSegmentToUser(user, currentSegment, expired_timestamp);
             }
             else{
                 throw new BadSegmentException("Bad segment");

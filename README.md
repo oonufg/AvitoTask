@@ -1,5 +1,5 @@
 # AvitoTask
-Тестовое задание для BackEnd разработчика от Avito
+Тестовое задание для BackEnd разработчика от Avito\
 github.com/avito-tech/backend-trainee-assignment-2023
 
 ### Запуск
@@ -9,7 +9,7 @@ github.com/avito-tech/backend-trainee-assignment-2023
 
 #### 2| sudo docker-compose up
 
-##### После запуска доступен по адресу:
+#### После запуска доступен по адресу:
 <http://localhost:8000/api/v1/{end_point}>
 
 # REST API

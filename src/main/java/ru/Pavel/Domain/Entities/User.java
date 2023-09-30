@@ -26,12 +26,12 @@ public class User {
         return segmentRepository.getUserSegmentsHistory(this);
     }
 
-    public void addSegments(List<Segment> segmentList)throws BadSegmentException, UserAlreadyHaveSegmentException {
-        segmentRepository.addSegmentsToUser(this, segmentList);
+    public void addSegments(List<Segment> segmentList, Long expired_timestamp)throws BadSegmentException, UserAlreadyHaveSegmentException {
+        segmentRepository.addSegmentsToUser(this, segmentList, expired_timestamp);
     }
     
-    public void addSegment(Segment segment) throws  BadSegmentException, UserAlreadyHaveSegmentException{
-        segmentRepository.addSegmentToUser(this,segment);
+    public void addSegment(Segment segment, Long expired_timestamp) throws  BadSegmentException, UserAlreadyHaveSegmentException{
+        segmentRepository.addSegmentToUser(this, segment, expired_timestamp);
     } 
 
     public void deleteSegments(List<Segment> segment)  throws  BadSegmentException, UserNotHaveSegmentException {

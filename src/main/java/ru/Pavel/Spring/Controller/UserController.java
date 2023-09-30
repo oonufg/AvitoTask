@@ -63,9 +63,9 @@ public class UserController {
     }
 
     @PostMapping("{id}/a")
-    public ResponseEntity<?> handleAddSegmentsToUser(@PathVariable("id") long userId, @RequestBody List<Segment> segments){
+    public ResponseEntity<?> handleAddSegmentsToUser(@PathVariable("id") long userId,@RequestHeader(value="timestamp", required=false) Long expired_timestamp ,@RequestBody List<Segment> segments){
         try {
-            userService.addSegmentsToUser(userId, segments);
+            userService.addSegmentsToUser(userId, segments, expired_timestamp);
             return ResponseEntity.ok("");
         }catch(UserNotFoundException exception ){
             return ResponseEntity.notFound().build();

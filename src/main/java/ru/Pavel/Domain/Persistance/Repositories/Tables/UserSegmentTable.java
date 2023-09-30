@@ -6,10 +6,7 @@ import org.springframework.stereotype.Component;
 import ru.Pavel.Domain.Persistance.Repositories.Enums.ActionsWithSegments;
 import ru.Pavel.Domain.Persistance.Repositories.Tables.DataSource.PostgresqlTable;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -57,9 +54,9 @@ public class UserSegmentTable extends PostgresqlTable {
         return result;
     }
 
-    public void addSegmentToUser(long user_id, long segment_id, String action, long timestamp){
+    public void addSegmentToUser(long user_id, long segment_id, String action, long timestamp, Long expired_timestamp){
         try{
-            PreparedStatement query = getAddSegmentsToUserStatement(user_id, segment_id, action, timestamp);
+            PreparedStatement query = getAddSegmentsToUserStatement(user_id, segment_id, action, timestamp, expired_timestamp);
             executeQuery(query);
         }catch(SQLException e){
             System.out.println(e.getMessage());
@@ -70,6 +67,14 @@ public class UserSegmentTable extends PostgresqlTable {
         try{
             PreparedStatement query = getDeleteUserSegmentStatement(user_id, segment_id);
             executeQuery(query);
+        }catch(SQLException exception){
+            System.out.println(exception.getMessage());
+        }
+    }
+    public void deleteExpiredUserSegments(long timestamp){
+        try{
+            PreparedStatement query = deleteExpiredUserSegmentsStatement(timestamp);
+            ResultSet queryResult = executeQuery(query);
         }catch(SQLException exception){
             System.out.println(exception.getMessage());
         }
@@ -106,13 +111,18 @@ public class UserSegmentTable extends PostgresqlTable {
         return statement;
     }
 
-    private PreparedStatement getAddSegmentsToUserStatement(long user_id, long segment_id, String action, long timestamp) throws SQLException{
-        String query = "INSERT INTO users_segments(user_id, segment_id, action, timestamp) VALUES(?,?,?,?)";
+    private PreparedStatement getAddSegmentsToUserStatement(long user_id, long segment_id, String action, long timestamp, Long expired_timestamp) throws SQLException{
+        String query = "INSERT INTO users_segments(user_id, segment_id, action, timestamp, expired_timestamp) VALUES(?,?,?,?,?)";
         PreparedStatement statement = getStatement(query);
         statement.setLong(1,user_id);
         statement.setLong(2,segment_id);
         statement.setString(3,action);
         statement.setTimestamp(4,new Timestamp(timestamp));
+        if(expired_timestamp != null){
+            statement.setTimestamp(5,new Timestamp(expired_timestamp));
+        }else {
+            statement.setNull(5, Types.TIMESTAMP);
+        }
         return statement;
     }
 
@@ -134,6 +144,13 @@ public class UserSegmentTable extends PostgresqlTable {
         String query = "SELECT users.id FROM users_segments WHERE segment_id <> ?";
         PreparedStatement statement = getStatement(query);
         statement.setLong(1, segment_id);
+        return statement;
+    }
+
+    private PreparedStatement deleteExpiredUserSegmentsStatement(long timestamp) throws SQLException{
+        String query = "UPDATE users_segments  SET action = 'removal' WHERE action <> 'removal' AND expired_timestamp <= ?";
+        PreparedStatement statement = getStatement(query);
+        statement.setTimestamp(1, new Timestamp(timestamp));
         return statement;
     }
 

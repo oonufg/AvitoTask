@@ -42,9 +42,9 @@ public class UserService {
         return user.getSegmentsHistory();
     }
 
-    public void addSegmentsToUser(long user_id, List<Segment> segmentsToAdd) throws UserNotFoundException, BadSegmentException, UserAlreadyHaveSegmentException {
+    public void addSegmentsToUser(long user_id, List<Segment> segmentsToAdd,Long expired_timestamp) throws UserNotFoundException, BadSegmentException, UserAlreadyHaveSegmentException {
         User user = users.getUser(user_id);
-        user.addSegments(segmentsToAdd);
+        user.addSegments(segmentsToAdd, expired_timestamp);
     }
 
     public void deleteUserSegments(long user_id, List<Segment> segmentsToDelete)  throws UserNotFoundException, BadSegmentException, UserNotHaveSegmentException {
