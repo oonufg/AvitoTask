@@ -52,7 +52,7 @@ public class SegmentService {
         return (int)(userCount * calculatedPercent);
     }
 
-    private void addNewSegmentToPercentOfUsers(Segment segment, double percent, long expired_timestamp) throws InvalidPercentException, UserAlreadyHaveSegmentException, BadSegmentException {
+    private void addNewSegmentToPercentOfUsers(Segment segment, double percent, Long expired_timestamp) throws InvalidPercentException, UserAlreadyHaveSegmentException, BadSegmentException {
         List<User> userList = userRepository.getAllUsers();
         int numberOfPeopleToAdd = calculateUserCount(userList.size(), percent);
         Collections.shuffle(userList);

@@ -19,11 +19,6 @@ public class UserService {
     static{
         users = new UserRepository();
     }
-
-    public UserService(){
-
-    }
-
     public void createUser(){
         users.createUser();
     }

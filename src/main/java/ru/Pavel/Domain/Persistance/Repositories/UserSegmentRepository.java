@@ -26,7 +26,6 @@ public class UserSegmentRepository {
 
     public void addSegmentToUser(User user, Segment segment, Long expired_timestamp) throws  UserAlreadyHaveSegmentException{
         long currentTimestamp = Calendar.getInstance().getTimeInMillis();
-        System.out.println(currentTimestamp);
         String action = ActionsWithSegments.ADDING.getTitle();
         if(!isUserAlreadyHaveSegment(user, segment)){
             userSegmentTable.addSegmentToUser(user.getId(), segment.getId(), action, currentTimestamp, expired_timestamp);
