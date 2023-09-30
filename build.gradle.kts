@@ -18,16 +18,11 @@ dependencies {
     implementation("org.postgresql:postgresql:42.6.0")
     implementation("org.springframework.boot:spring-boot-starter-web:3.1.4")
     implementation("com.google.code.gson:gson:2.10.1")
-
-
-
-
-
 }
 
-tasks.jar {
-}
 
+tasks.bootRun {
+}
 
 tasks.test {
     useJUnitPlatform()
