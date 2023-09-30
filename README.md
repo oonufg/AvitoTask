@@ -46,24 +46,66 @@ ___
         "id": {Integer value},
         "slug": {String value}
       }  
+___
+## UserService
+* ### Создать пользователя
+        POST: /user
+        {
+          {empty body}
+        }
+        RESPOSE:
+        CODE: 200
+* ### Удалить пользователя
+        DELETE: /user/{USER_ID}
+        {
+          {empty body}
+        }
+        RESPOSE:
+        CODE: 200
+* ### Получить сегменты пользователя
+        GET: /user/{USER_ID}
+        RESPOSE:
+        CODE: 200
+        [
+            {
+                "id": {Integer value},
+                "slug": {String value}
+            }
+        ]
+* ### Получить историю сегментов пользователя
+        GET: /user/{USER_ID}/h
+        RESPOSE:
+        CODE: 200
+        [
+            {
+                "id": {Integer value},
+                "slug": {String value}
+                "action": {String value}
+                "timestamp":{String value}
+            }
+        ]
+* ### Добавить сегменты пользователю
+        POST: /user/{USER_ID}/a
+        [
+            {
+                "id": {Integer value},
+                "slug": {String value}
+            }
+        ]
+        RESPOSE:
+        CODE: 200 - if all ok
+        CODE: 400 - if user not have segment or segment is bad
+        CODE: 404 - if user not found
+* ### Удалить сегменты пользователю
+        DELETE: /user/{USER_ID}/d
+        [
+            {
+                "id": {Integer value},
+                "slug": {String value}
+            }
+        ]
+        RESPOSE:
+        CODE: 200 - if all ok
+        CODE: 400 - if user not have segment or segment is bad
+        CODE: 404 - if user not found
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
