@@ -11,8 +11,6 @@ import ru.Pavel.Domain.Exceptions.InvalidPercentException;
 import ru.Pavel.Domain.Exceptions.UserAlreadyHaveSegmentException;
 import ru.Pavel.Services.SegmentService;
 
-import java.util.List;
-
 
 @RestController
 @RequestMapping("/api/v1/segment")

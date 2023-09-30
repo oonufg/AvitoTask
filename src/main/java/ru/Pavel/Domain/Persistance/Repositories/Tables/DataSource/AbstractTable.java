@@ -14,6 +14,11 @@ public abstract class AbstractTable {
         return connection.prepareStatement(query);
     }
 
+    protected int executeUpdate(PreparedStatement statement) throws SQLException{
+        int result = statement.executeUpdate();
+        return result;
+    }
+
     protected ResultSet executeQuery(PreparedStatement statement) throws SQLException{
         statement.executeQuery();
         ResultSet resultSet = statement.getResultSet();

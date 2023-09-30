@@ -9,7 +9,6 @@ import ru.Pavel.Domain.Exceptions.UserAlreadyHaveSegmentException;
 import ru.Pavel.Domain.Persistance.Repositories.SegmentRepository;
 import ru.Pavel.Domain.Persistance.Repositories.UserRepository;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 

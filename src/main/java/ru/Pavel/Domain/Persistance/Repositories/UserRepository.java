@@ -1,6 +1,5 @@
 package ru.Pavel.Domain.Persistance.Repositories;
 
-import ru.Pavel.Domain.Entities.Segment;
 import ru.Pavel.Domain.Entities.User;
 import ru.Pavel.Domain.Exceptions.UserNotFoundException;
 import ru.Pavel.Domain.Persistance.Repositories.Mapper.UserMapper;
