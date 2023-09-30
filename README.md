@@ -36,6 +36,7 @@ ___
       POST: /segment/p
       HTTP HEADERS:
       - percent = (Integer value)
+      - timestamp = (Integer value) in nanoseconds
       BODY:
       {
         "slug": {String value}
@@ -86,6 +87,9 @@ ___
         ]
 * ### Добавить сегменты пользователю
         POST: /user/{USER_ID}/a
+        HTTP HEADERS:
+        - percent = (Integer value)
+        - timestamp = (Integer value) in nanoseconds
         [
             {
                 "id": {Integer value},
