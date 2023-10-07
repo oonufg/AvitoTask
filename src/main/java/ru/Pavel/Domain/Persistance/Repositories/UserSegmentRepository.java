@@ -6,10 +6,10 @@ import ru.Pavel.Domain.Entities.UserSegment;
 import ru.Pavel.Domain.Exceptions.BadSegmentException;
 import ru.Pavel.Domain.Exceptions.UserAlreadyHaveSegmentException;
 import ru.Pavel.Domain.Exceptions.UserNotHaveSegmentException;
-import ru.Pavel.Domain.Persistance.Repositories.Enums.ActionsWithSegments;
-import ru.Pavel.Domain.Persistance.Repositories.Mapper.SegmentMapper;
-import ru.Pavel.Domain.Persistance.Repositories.Tables.SegmentTable;
-import ru.Pavel.Domain.Persistance.Repositories.Tables.UserSegmentTable;
+import ru.Pavel.Domain.Persistance.Enums.ActionsWithSegments;
+import ru.Pavel.Domain.Persistance.Mapper.SegmentMapper;
+import ru.Pavel.Domain.Persistance.Tables.SegmentTable;
+import ru.Pavel.Domain.Persistance.Tables.UserSegmentTable;
 
 import java.util.Calendar;
 import java.util.List;

@@ -1,6 +1,6 @@
 package ru.Pavel.Services;
 
-import ru.Pavel.Domain.Persistance.Repositories.Tables.UserSegmentTable;
+import ru.Pavel.Domain.Persistance.Tables.UserSegmentTable;
 
 import java.util.Calendar;
 

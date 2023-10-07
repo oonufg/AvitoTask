@@ -1,8 +1,8 @@
 package ru.Pavel.Domain.Persistance.Repositories;
 
 import ru.Pavel.Domain.Entities.Segment;
-import ru.Pavel.Domain.Persistance.Repositories.Mapper.SegmentMapper;
-import ru.Pavel.Domain.Persistance.Repositories.Tables.SegmentTable;
+import ru.Pavel.Domain.Persistance.Mapper.SegmentMapper;
+import ru.Pavel.Domain.Persistance.Tables.SegmentTable;
 
 import java.util.List;
 
@@ -18,7 +18,6 @@ public class SegmentRepository {
     }
     public void deleteSegment(Segment segment){
         segmentTable.deleteSegment(segment.getSlug());
-
     }
 
     public List<Segment> getAllSegments(){

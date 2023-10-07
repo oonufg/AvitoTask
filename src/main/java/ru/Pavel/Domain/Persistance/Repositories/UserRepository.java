@@ -2,9 +2,9 @@ package ru.Pavel.Domain.Persistance.Repositories;
 
 import ru.Pavel.Domain.Entities.User;
 import ru.Pavel.Domain.Exceptions.UserNotFoundException;
-import ru.Pavel.Domain.Persistance.Repositories.Mapper.UserMapper;
-import ru.Pavel.Domain.Persistance.Repositories.Tables.UserSegmentTable;
-import ru.Pavel.Domain.Persistance.Repositories.Tables.UserTable;
+import ru.Pavel.Domain.Persistance.Mapper.UserMapper;
+import ru.Pavel.Domain.Persistance.Tables.UserSegmentTable;
+import ru.Pavel.Domain.Persistance.Tables.UserTable;
 
 import java.util.List;
 import java.util.Map;
